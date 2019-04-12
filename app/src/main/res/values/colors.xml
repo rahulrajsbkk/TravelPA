@@ -8,6 +8,16 @@
     <color name="black">#000</color>
     <color name="dimgrey">#696969</color>
 
+    <color name="loginPrimaryDark">#7844FE</color>
+    <color name="loginPrimary">#7844FE</color>
+    <color name="loginGoogle">#E85A42</color>
+    <color name="loginBG">#F8F9FD</color>
+    <color name="loginGoogleDark">#DB4F36</color>
+    <color name="loginFB">#5272AF</color>
+    <color name="loginFBDark">#3A5D9D</color>
+    <color name="loginAccent">#ff6f6dff</color>
+    <color name="loginPrimaryText">#7085A4</color>
+    <color name="colorWhite">#FEFEFE</color>
 
     <color name="color1">#424549</color>
     <color name="color2">#7e455e</color>
