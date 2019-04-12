@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "694351629116",
+    "firebase_url": "https://travelpa-a5754.firebaseio.com",
+    "project_id": "travelpa-a5754",
+    "storage_bucket": "travelpa-a5754.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694351629116:android:6fc11b381e2a15f8",
+        "android_client_info": {
+          "package_name": "in.ouon.travelpa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694351629116-57f7bh5e320osvltthh9hsmh23lm3c03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.ouon.travelpa",
+            "certificate_hash": "bbee328a61eb9643255660b2c07d6bd32b92ec20"
+          }
+        },
+        {
+          "client_id": "694351629116-02p79h1h3q2m9p18inuiv238ip5asqke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.ouon.travelpa",
+            "certificate_hash": "b953c4f3c508c6cf568bd270c5e29500ea68bae5"
+          }
+        },
+        {
+          "client_id": "694351629116-389pragct29btg3622g04kthd49c5in2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQpkhE0DngW7ouf92kLUAIlQa-GsEEIrc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694351629116-389pragct29btg3622g04kthd49c5in2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
