@@ -51,7 +51,7 @@
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/etPhoneNo"
-                    android:id="@+id/etOTP">
+                    android:id="@+id/etOTP" android:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -83,40 +83,8 @@
                     android:id="@+id/textView2" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/btPhoneLogin" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/btLoginFB"/>
-            <androidx.cardview.widget.CardView
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    app:cardCornerRadius="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                    android:id="@+id/btLoginFB" android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/btLoginGoogle">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:background="@color/loginFB"
-                        android:layout_height="match_parent">
-
-                    <TextView
-                            android:text="LOGIN WITH FACEBOOK"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorWhite"
-                            android:id="@+id/textView5" app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-                            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" app:srcCompat="@drawable/ic_fb"
-                            android:id="@+id/imageView" app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginStart="20dp" android:layout_marginTop="8dp"
-                            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toBottomOf="@+id/btPhoneLogin"
+                    android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/btLoginGoogle"/>
             <androidx.cardview.widget.CardView
                     android:layout_width="300dp"
                     android:layout_height="50dp"
@@ -147,8 +115,25 @@
                             android:layout_marginStart="16dp" android:layout_marginTop="8dp"
                             app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ProgressBar
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressGoogle" app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toTopOf="parent" android:visibility="invisible"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+            <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressPhone" app:layout_constraintEnd_toEndOf="@+id/btPhoneLogin"
+                    app:layout_constraintStart_toStartOf="@+id/btPhoneLogin"
+                    app:layout_constraintBottom_toBottomOf="@+id/btPhoneLogin"
+                    app:layout_constraintTop_toTopOf="@+id/btPhoneLogin"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
