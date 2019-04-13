@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -67,6 +68,11 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+
+        btLoginGoogle.setOnClickListener { v ->
+            Snackbar.make(v, "Not Implemented Yet", Snackbar.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun sendVerificationCode(phoneNumber: String) {
@@ -133,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
                 while (i >= 0) {
                     runOnUiThread {
                         if (i == 0) {
-                            tvOTP.visibility = View.GONE
+                            tvOTP.visibility = View.INVISIBLE
                         }
                         tvOTP.text = "OTP Will Recive in " + i + " Secs"
                     }
