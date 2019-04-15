@@ -7,24 +7,31 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.concurrent.TimeUnit
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     internal val TAG: String = "LOGIN"
     private lateinit var storedVerificationId: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var mAuth: FirebaseAuth
     private var otpSent = false
+    private lateinit var gso: GoogleSignInOptions
+    private lateinit var googleSignInClient: GoogleApiClient
+    private val RES_CODE = 121
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +44,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleApiClient.Builder(this)
+            .enableAutoManage(this, this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+
 
         etOTP.visibility = View.INVISIBLE
         tvOTP.visibility = View.INVISIBLE
@@ -70,7 +88,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btLoginGoogle.setOnClickListener { v ->
-            Snackbar.make(v, "Not Implemented Yet", Snackbar.LENGTH_SHORT).show()
+            progressGoogle.visibility = View.VISIBLE
+            btLoginGoogle.visibility = View.INVISIBLE
+            signInWithGoogle()
         }
 
     }
@@ -182,6 +202,54 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    //-----------------------End Phone Auth-----------------
+    //-----------------------End Phone Auth--------------------
+
+
+    //-----------------------Google Sign in--------------------
+
+    private fun signInWithGoogle() {
+        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleSignInClient)
+        startActivityForResult(signInIntent, RES_CODE)
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        progressGoogle.visibility = View.INVISIBLE
+        btLoginGoogle.visibility = View.VISIBLE
+    }
+
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.id!!)
+
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "signInWithCredential:success")
+                    Toast.makeText(this, "Loggined", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Snackbar.make(layoutLogin, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                }
+                progressGoogle.visibility = View.INVISIBLE
+                btLoginGoogle.visibility = View.VISIBLE
+            }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RES_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                progressGoogle.visibility = View.INVISIBLE
+                btLoginGoogle.visibility = View.VISIBLE
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
 
 }
