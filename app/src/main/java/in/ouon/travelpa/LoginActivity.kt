@@ -1,5 +1,6 @@
 package `in`.ouon.travelpa
 
+import `in`.ouon.travelpa.utils.AppUtils
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -19,8 +20,10 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.concurrent.TimeUnit
+
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
@@ -32,6 +35,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     private lateinit var gso: GoogleSignInOptions
     private lateinit var googleSignInClient: GoogleApiClient
     private val RES_CODE = 121
+    private lateinit var userDB: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         setContentView(R.layout.activity_login)
         FirebaseApp.initializeApp(this)
         mAuth = FirebaseAuth.getInstance()
+        userDB = FirebaseDatabase.getInstance().reference.child(AppUtils.USER_DB_KEY)
 
         if (mAuth.currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
@@ -177,11 +182,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 if (task.isSuccessful) {
 
                     Log.d(TAG, "signInWithCredential:success")
-                    val user = task.result?.user
-
+                    val user = task.result?.user!!.uid
+                    login(user, AppUtils.PHONE_SIGN_IN)
                     Toast.makeText(this, "Loggined", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
 
                     // ...
                 } else {
@@ -224,10 +227,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
                     Log.d(TAG, "signInWithCredential:success")
                     Toast.makeText(this, "Loggined", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    val user = task.result!!.user!!.uid
+                    login(user, AppUtils.GOOGLE_SIGN_IN)
+
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Snackbar.make(layoutLogin, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
@@ -250,6 +255,38 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 Log.w(TAG, "Google sign in failed", e)
             }
         }
+    }
+
+    private fun login(user: String, signInMethod: String) {
+        userDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.hasChild(user)) {
+                    //User Profile Already Set Up
+
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    //Setting Up User Profile
+                    val intent = Intent(this@LoginActivity, SetProfileActivity::class.java)
+                    intent.putExtra(AppUtils.SIGN_IN_METHODE, signInMethod)
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+                //Setting Up User Profile
+
+                val intent = Intent(this@LoginActivity, SetProfileActivity::class.java)
+                intent.putExtra(AppUtils.SIGN_IN_METHODE, signInMethod)
+                startActivity(intent)
+                finish()
+
+            }
+        })
     }
 
 }
