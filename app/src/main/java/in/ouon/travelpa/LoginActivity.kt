@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     btPhoneLogin.visibility = View.INVISIBLE
                     btPhoneLogin.isEnabled = false
                     progressPhone.visibility = View.VISIBLE
-                    sendVerificationCode(phone)
+                    sendVerificationCode("+91$phone")
                 } else {
                     val otp = etOTP.editText!!.text.toString()
                     if (TextUtils.isEmpty(otp)) {
