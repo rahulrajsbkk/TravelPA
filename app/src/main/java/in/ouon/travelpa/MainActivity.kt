@@ -20,11 +20,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerView.setHasFixedSize(true)
-        recyclerView.setLayoutManager(GridLayoutManager(mcontext,2));
+        recyclerView.setLayoutManager(GridLayoutManager(mcontext, 2))
         AddtoCart.setOnClickListener{
 //            startActivity(Intent(this@MainActivity, CartActivity::class.java))
             Toast.makeText(this@MainActivity, "Cart Clicked.", Toast.LENGTH_SHORT).show()
         }
+
+        profile.setOnClickListener { v ->
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
     }
 
     override fun onStart() {

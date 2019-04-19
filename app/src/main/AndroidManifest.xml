@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		  xmlns:tools="http://schemas.android.com/tools"
 		  package="in.ouon.travelpa">
+
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -13,8 +14,12 @@
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme"
 			tools:ignore="GoogleAppIndexingWarning">
-		<activity android:name=".SetProfileActivity"
+		<activity android:name=".UserProfileActivity"
 				  android:theme="@style/LoginTheme">
+		</activity>
+		<activity
+				android:name=".SetProfileActivity"
+				android:theme="@style/LoginTheme">
 		</activity>
 		<activity
 				android:name=".LoginActivity"
@@ -34,8 +39,9 @@
 			<!-- <category android:name="android.intent.category.LAUNCHER"/> -->
 			<!-- </intent-filter> -->
 		</activity>
-		<activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-				  android:theme="@style/Base.Theme.AppCompat"/>
+		<activity
+				android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+				android:theme="@style/Base.Theme.AppCompat"/>
 	</application>
 
 </manifest>

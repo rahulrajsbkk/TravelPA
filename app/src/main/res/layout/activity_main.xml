@@ -59,6 +59,10 @@
                     android:textSize="10dp"
                     android:layout_below="@+id/tagline"
             />
+			<Button
+					android:text="Button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/profile"/>
 
         </RelativeLayout>
 
