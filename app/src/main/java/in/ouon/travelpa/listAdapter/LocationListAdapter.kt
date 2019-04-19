@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.place_item.view.*
 
 
@@ -34,9 +34,7 @@ class LocationListAdapter(
         val location = locationList[position]
         holder.title.text = location.title
         holder.desc.text = location.desc
-        Picasso.get().load("your-imaage-url").into(holder.img);
-
-
+        Glide.with(ctx).load("your-imaage-url").into(holder.img)
 
 
     }

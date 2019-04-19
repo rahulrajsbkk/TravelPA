@@ -1,12 +1,12 @@
 package `in`.ouon.travelpa.model
 
 class LocationModel {
-    var title : String? = null
-    var desc : String? = null
-    var image : String? = null
-    var id : String? = null
+    var title: String? = null
+    var desc: String? = null
+    var image: String? = null
+    var id: String? = null
 
-    constructor(){
+    constructor() {
 
     }
 

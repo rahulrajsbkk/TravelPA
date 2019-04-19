@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mDatabase : DatabaseReference
+    lateinit var mDatabase: DatabaseReference
     private val mcontext: Context = this
     private lateinit var database: DatabaseReference
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
 //        mRecyclerView=recyclerView
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(mcontext,2);
+        recyclerView.layoutManager = GridLayoutManager(mcontext, 2);
         AddtoCart.setOnClickListener{
             //            startActivity(Intent(this@MainActivity, CartActivity::class.java))
             Toast.makeText(this@MainActivity, "Cart Clicked.", Toast.LENGTH_SHORT).show()
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         listAddress()
     }
+
     private fun listAddress() {
         val addressRef = database.child("location")
 
