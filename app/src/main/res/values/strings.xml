@@ -21,4 +21,5 @@
 		data
 	</string>
 	<string name="play_again">Play Again</string>
+	<string name="title_activity_maps2">Map</string>
 </resources>
