@@ -3,6 +3,7 @@ package `in`.ouon.travelpa
 
 import `in`.ouon.travelpa.model.LocationModel
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,14 +35,20 @@ class LocationListAdapter(
         val location = locationList[position]
         holder.title.text = location.title
         holder.desc.text = location.desc
-        Glide.with(ctx).load("your-imaage-url").into(holder.img)
+        Glide.with(ctx).load(location.image).into(holder.img)
+//        Picasso.get().load().into(holder.img);
 
+        holder.cardRowMain.setOnClickListener {
+                val intent = Intent(ctx, MapsActivity::class.java)
+                intent.putExtra("key", "01")
+                ctx.startActivity(intent)
+            }
 
-    }
-
+        }
     class AddressViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.title_upade_home
         val desc = view.desc_update
         val img = view.image_view_horizontal_home
+        val cardRowMain = view.cardRowMain
     }
 }
