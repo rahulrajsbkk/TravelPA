@@ -19,15 +19,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_maps.*
-import android.transition.Slide
-import android.view.Gravity
-import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
-import com.google.firebase.auth.FirebaseAuth
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -35,7 +29,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mDb: DatabaseReference
     private lateinit var locations: LocationModel
     private lateinit var recycler: RecyclerView
-    private lateinit var mainLoc:LocationModel
+    private lateinit var mainLoc: LocationModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,10 +76,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val location = snapshot.getValue(LocationModel::class.java)
                 if (location != null) {
-                    val locationPoint  = LatLng(location.lat, location.lng)
+                    val locationPoint = LatLng(location.lat, location.lng)
                     mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title))
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
-                    mainLoc=location
+                    mainLoc = location
                 }
             }
         })
@@ -101,8 +95,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (locationChild: DataSnapshot in snapshot.children) {
                     val location = locationChild.getValue(LocationModel::class.java)
                     if (location != null) {
-                        locationPoint = LatLng(location.lat, location.lng)
-                        mMap.addMarker(MarkerOptions().position(kerala).title(location.title))
+                        val locationPoint = LatLng(location.lat, location.lng)
+                        mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title))
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, 10F))
                     }
                 }

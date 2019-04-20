@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mDatabase: DatabaseReference
     private val mcontext: Context = this
     private lateinit var database: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         database = FirebaseDatabase.getInstance().reference
-//        mRecyclerView=recyclerView
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(mcontext, 2);
         AddtoCart.setOnClickListener{
