@@ -4,10 +4,15 @@ import `in`.ouon.travelpa.model.LocationModel
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.LayoutInflater
-
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -77,9 +82,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val location = snapshot.getValue(LocationModel::class.java)
                 if (location != null) {
-                    val kerala = LatLng(location.lat, location.lng)
-                    mMap.addMarker(MarkerOptions().position(kerala).title(location.title))
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, zoom))
+                    val locationPoint  = LatLng(location.lat, location.lng)
+                    mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
                     mainLoc=location
                 }
             }
@@ -90,20 +95,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 mMap.clear()
-                val kerala = LatLng(mainLoc.lat, mainLoc.lng)
-                mMap.addMarker(MarkerOptions().position(kerala).title(mainLoc.title))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, zoom))
+                val locationPoint = LatLng(mainLoc.lat, mainLoc.lng)
+                mMap.addMarker(MarkerOptions().position(locationPoint).title(mainLoc.title))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
                 for (locationChild: DataSnapshot in snapshot.children) {
                     val location = locationChild.getValue(LocationModel::class.java)
                     if (location != null) {
-                        val kerala = LatLng(location.lat, location.lng)
+                        locationPoint = LatLng(location.lat, location.lng)
                         mMap.addMarker(MarkerOptions().position(kerala).title(location.title))
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, 10F))
                     }
                 }
             }
         })
-
         button.setOnClickListener {
             // Initialize a new layout inflater instance
             val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

@@ -70,6 +70,8 @@ class LocationListAdapter(
 
     }
     }
+
+    }
     class AddressViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.title_upade_home
         val desc = view.desc_update
