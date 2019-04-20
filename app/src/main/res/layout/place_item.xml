@@ -26,6 +26,11 @@
 					android:id="@+id/image_view_horizontal_home"
 					android:scaleType="centerCrop"
 					android:transitionName="profile"/>
+			<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" app:srcCompat="@drawable/ic_uncheck"
+					android:visibility="gone"
+					android:id="@+id/check"/>
 
 
 		</FrameLayout>
@@ -36,14 +41,18 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="bottom"
 				android:layout_margin="8dp"
-				android:text="Rafi"
+				android:text="Title"
 				android:textColor="#283850"
-				android:textSize="17dp"
+				android:textSize="17sp"
 		/>
 
 		<TextView
-
-				android:layout_below="@+id/title_upade_home"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textViewPrice"
+				android:visibility="gone"
+				android:textAlignment="textEnd"/>
+		<TextView
 				android:id="@+id/desc_update"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -51,7 +60,7 @@
 				android:layout_marginRight="5dp"
 				android:text="this is the description"
 				android:textColor="#283850"
-				android:textSize="12dp"/>
+				android:textSize="12sp"/>
 
 
 
