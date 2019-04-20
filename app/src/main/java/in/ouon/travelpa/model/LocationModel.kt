@@ -5,16 +5,20 @@ class LocationModel {
     var desc: String? = null
     var image: String? = null
     var id: String? = null
+    var lat: Double = 0.0
+    var lng: Double = 0.0
 
     constructor() {
 
     }
 
-    constructor(title: String?, desc: String?, image: String?, id: String?) {
+    constructor(title: String?, desc: String?, image: String?, id: String?, lat: Double, lng: Double) {
         this.title = title
         this.desc = desc
         this.image = image
         this.id = id
+        this.lat = lat
+        this.lng = lng
     }
 
 
