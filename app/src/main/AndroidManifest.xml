@@ -14,8 +14,12 @@
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme"
 			tools:ignore="GoogleAppIndexingWarning">
-		<activity android:name=".UserProfileActivity"
+		<activity android:name=".CartActivity"
 				  android:theme="@style/LoginTheme">
+		</activity>
+		<activity
+				android:name=".UserProfileActivity"
+				android:theme="@style/LoginTheme">
 		</activity>
 		<activity
 				android:name=".SetProfileActivity"
@@ -24,17 +28,17 @@
 		<activity
 				android:name=".LoginActivity"
 				android:theme="@style/LoginTheme">
-			<!--<intent-filter>-->
-			<!--<action android:name="android.intent.action.MAIN"/>-->
 
-			<!--<category android:name="android.intent.category.LAUNCHER"/>-->
-			<!--</intent-filter>-->
+			<!-- <intent-filter> -->
+			<!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+			<!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+			<!-- </intent-filter> -->
 		</activity>
 		<activity android:name=".MainActivity">
-
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
-
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
