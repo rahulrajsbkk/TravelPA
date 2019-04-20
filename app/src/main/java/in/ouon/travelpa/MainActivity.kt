@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 recyclerView.adapter =
-                    LocationListAdapter(locationList, this@MainActivity)
+                    LocationListAdapter(locationList, this@MainActivity,"main")
 
             }
 

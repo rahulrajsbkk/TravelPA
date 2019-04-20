@@ -21,12 +21,21 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_maps.*
+import android.transition.Slide
+import android.view.Gravity
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
+import com.google.firebase.auth.FirebaseAuth
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var database: DatabaseReference
+    private lateinit var mDb: DatabaseReference
     private lateinit var locations: LocationModel
     private lateinit var recycler: RecyclerView
+    private lateinit var mainLoc:LocationModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +43,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         database = FirebaseDatabase.getInstance().reference
+        mDb = database
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
         locations = LocationModel()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
@@ -44,6 +55,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val id: String = intent.getStringExtra("key")
 
         database = database.child("location").child(id)
+        mDb = mDb.child("users").child(userId).child("cart").child("areatours")
+
 
     }
 
@@ -69,11 +82,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val location = snapshot.getValue(LocationModel::class.java)
                 if (location != null) {
-                    val kerala = LatLng(location.lat, location.lng)
-                    val keralam = LatLng(15.258, 10.5666)
-                    mMap.addMarker(MarkerOptions().position(kerala).title("Kerala"))
-                    mMap.addMarker(MarkerOptions().position(keralam).title("Kerala"))
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, zoom))
+                    val locationPoint  = LatLng(location.lat, location.lng)
+                    mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
+                    mainLoc=location
+                }
+            }
+        })
+        mDb.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mMap.clear()
+                val locationPoint = LatLng(mainLoc.lat, mainLoc.lng)
+                mMap.addMarker(MarkerOptions().position(locationPoint).title(mainLoc.title))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
+                for (locationChild: DataSnapshot in snapshot.children) {
+                    val location = locationChild.getValue(LocationModel::class.java)
+                    if (location != null) {
+                        locationPoint = LatLng(location.lat, location.lng)
+                        mMap.addMarker(MarkerOptions().position(kerala).title(location.title))
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, 10F))
+                    }
                 }
             }
         })
@@ -115,7 +146,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val tv = view.findViewById<TextView>(R.id.text_view)
             val buttonPopup = view.findViewById<Button>(R.id.button_popup)
             recycler = view.findViewById<RecyclerView>(R.id.attractionsRecycler)
-
             listAddress()
 
             // Set click listener for popup window's text view
@@ -167,7 +197,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
                 recycler.adapter =
-                    LocationListAdapter(locationList1, this@MapsActivity)
+                    LocationListAdapter(locationList1, this@MapsActivity, "maps")
             }
 
         })
