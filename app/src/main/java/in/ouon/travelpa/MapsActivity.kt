@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +31,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locations: LocationModel
     private lateinit var recycler: RecyclerView
     private lateinit var mainLoc: LocationModel
+    private lateinit var userId:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         database = FirebaseDatabase.getInstance().reference
         mDb = database
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        userId = FirebaseAuth.getInstance().currentUser!!.uid
         locations = LocationModel()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
@@ -91,19 +93,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 mMap.clear()
                 val locationPoint = LatLng(mainLoc.lat, mainLoc.lng)
                 mMap.addMarker(MarkerOptions().position(locationPoint).title(mainLoc.title))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, zoom))
                 for (locationChild: DataSnapshot in snapshot.children) {
                     val location = locationChild.getValue(LocationModel::class.java)
                     if (location != null) {
                         val locationPoint = LatLng(location.lat, location.lng)
-                        mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title))
+                        mMap.addMarker(MarkerOptions().position(locationPoint).title(location.title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kerala, 10F))
                     }
                 }
             }
         })
         button.setOnClickListener {
-            // Initialize a new layout inflater instance
+            mDb.child("users").child(userId).child("cart").child("areatours").removeValue()
+                button.isEnabled=false
             val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
             // Inflate a custom view using layout inflater
@@ -157,7 +159,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             // Set a dismiss listener for popup window
             popupWindow.setOnDismissListener {
-                Toast.makeText(applicationContext, "Popup closed", Toast.LENGTH_SHORT).show()
+                button.isEnabled=true
             }
 
             // Finally, show the popup window on app
@@ -173,7 +175,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun listAddress() {
-//val database = FirebaseDatabase.getInstance().reference
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(this@MapsActivity, LinearLayoutManager.HORIZONTAL, false)
         val addressRef = database.child("areatours")
