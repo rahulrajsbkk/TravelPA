@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
             //            startActivity(Intent(this@MainActivity, CartActivity::class.java))
             Toast.makeText(this@MainActivity, "Cart Clicked.", Toast.LENGTH_SHORT).show()
         }
+        profile.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
     }
 
     override fun onStart() {
